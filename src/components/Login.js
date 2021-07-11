@@ -16,6 +16,8 @@ const Login = () => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(user),
+      mode : "cors",
+      credentials : "include"
     });
 
     if (data.status == 422 || !user) {

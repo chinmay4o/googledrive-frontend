@@ -7,7 +7,7 @@ const Home = () => {
         <p className="pt-5">WELCOME</p>
         <h1>...</h1>
         <h2>
-        "We Are The MERN Developer"
+        "Welcome to the platform"
         </h2>
       </div>
     </div>

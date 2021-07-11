@@ -17,12 +17,12 @@ const About = () => {
 
       if (res.status != 200) {
         const error = new Error(res.error);
-        throw error;
+        throw new error;
       }
     } catch (err) {
       // res.status(401);
       console.log(err);
-      history.push("/login");
+       history.push("/login");
     }
   };
 
