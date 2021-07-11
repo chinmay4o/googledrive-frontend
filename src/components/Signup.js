@@ -1,22 +1,47 @@
-import React , {useState} from "react";
+import React, { useState } from "react";
 import "../App.css";
 import signuppic from "./images/signup.svg";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const Signup = () => {
-const [user , setUser] = useState({
-  name: "", email: "", phone: "", work: "", password: "", cpassword: ""
-});
+  const history = useHistory();
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    work: "",
+    password: "",
+    cpassword: "",
+  });
 
-let name , value;
+  let name, value;
 
-function handleInput(e) {
-  console.log(e);
-  name = e.target.name;
-  value = e.target.value;
-  setUser({...user , [name] : value});
-  console.log(user);
-}
+  function handleInput(e) {
+    console.log(e);
+    name = e.target.name;
+    value = e.target.value;
+    setUser({ ...user, [name]: value });
+    console.log(user);
+  }
+  // onClick Registerng user
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    const data = await fetch("http://localhost:5003/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...user }),
+    });
+
+    // const response = await data.json();
+
+    if (data.status == 422 || !user) {
+      window.alert("please make sure you put everything right ");
+    } else {
+      console.log("successfull registration");
+      history.push("/login");
+    }
+  }
 
   return (
     <section className="signup">
@@ -38,7 +63,6 @@ function handleInput(e) {
                   placeholder="Your Name"
                   value={user.name}
                   onChange={handleInput}
-                  
                 />
               </div>
 
@@ -52,7 +76,6 @@ function handleInput(e) {
                   placeholder="Your email"
                   value={user.email}
                   onChange={handleInput}
-
                 />
               </div>
 
@@ -68,7 +91,6 @@ function handleInput(e) {
                   onChange={handleInput}
                 />
               </div>
-
 
               <div className="form-group">
                 <label htmlFor="work"></label>
@@ -116,6 +138,7 @@ function handleInput(e) {
                   id="signup"
                   className="form-submit"
                   value="register"
+                  onClick={handleSubmit}
                 />
               </div>
             </form>

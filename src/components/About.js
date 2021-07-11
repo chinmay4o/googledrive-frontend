@@ -1,7 +1,35 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import signpic from "./images/login.svg";
+import { Link, useHistory } from "react-router-dom";
 
 const About = () => {
+  const history = useHistory();
+
+  const [userData, setUserData] = useState();
+  const aboutPageReq = async (req, res) => {
+    try {
+      const data = await fetch("http://localhost:5003/about", {
+        method: "GET",
+      });
+      const response = await data.json();
+
+      setUserData(response);
+
+      if (res.status != 200) {
+        const error = new Error(res.error);
+        throw error;
+      }
+    } catch (err) {
+      // res.status(401);
+      console.log(err);
+      history.push("/login");
+    }
+  };
+
+  useEffect(() => {
+    aboutPageReq();
+  }, []);
+
   return (
     <div className="container emp-profile">
       <form action="">
@@ -53,8 +81,8 @@ const About = () => {
                 </div>
               </nav>
 
-               {/* toggle content */}
-               
+              {/* toggle content */}
+
               <div className="tab-content" id="nav-tabContent">
                 <div
                   className="tab-pane fade show active"

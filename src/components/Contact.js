@@ -1,6 +1,18 @@
-import React from 'react'
+import React  , { useState , useEffect }from 'react'
 
 const Contact = () => {
+
+const ff = async() => {
+    const d = await fetch("http://localhost:5003/users" , {method : 'GET'})
+    const e = await d.json();
+    console.log(e);
+}
+
+
+useEffect(() => {
+    ff();
+} , [])
+
     return (
         <>
              <div className="contact_info">
