@@ -4,31 +4,37 @@ import { Link, useHistory } from "react-router-dom";
 
 const About = () => {
   const history = useHistory();
+    const [userData, setUserData] = useState({});
 
-  const [userData, setUserData] = useState();
-  const aboutPageReq = async (req, res) => {
-    try {
-      const data = await fetch("http://localhost:5003/about", {
-        method: "GET",
-      });
-      const response = await data.json();
+    const callAboutPage = async () => {
+        try {
+            const res = await fetch('http://localhost:5003/about', {
+                method: "GET",
+                headers: {
+                    Accept: "appllication/json",
+                    "Content-Type": "application/json"
+                },
+                credentials: "include"
+            });
 
-      setUserData(response);
+            const data = await res.json();
+            console.log(data);
+            setUserData(data);
 
-      if (res.status != 200) {
-        const error = new Error(res.error);
-        throw new error;
-      }
-    } catch (err) {
-      // res.status(401);
-      console.log(err);
-       history.push("/login");
+            if (res.status !== 200) {
+                const error = new Error(res.error);
+                throw error;
+            }
+
+        } catch (err) {
+            console.log(err);
+            history.push('/login');
+        }
     }
-  };
 
-  useEffect(() => {
-    aboutPageReq();
-  }, []);
+    useEffect(() => {
+        callAboutPage();
+    }, []);
 
   return (
     <div className="container emp-profile">
